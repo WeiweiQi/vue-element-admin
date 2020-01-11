@@ -96,6 +96,19 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/ordermanage',
+    component: Layout,
+    redirect: '/ordermanage/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/ordermanage/index'),
+        name: 'OrderManage',
+        meta: { title: 'OrderManage', icon: 'guide', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/guide',
     component: Layout,
     redirect: '/guide/index',
