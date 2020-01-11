@@ -10,9 +10,9 @@
       highlight-current-row
     >
       <el-table-column type="selection" align="center" width="40" />
-      <el-table-column align="center" label="序号" width="35">
+      <el-table-column align="center" label="序号" width="50">
         <template slot-scope="scope">
-          {{ scope.$index }}
+          {{ scope.$index + 1 }}
         </template>
       </el-table-column>
       <el-table-column label="订单编号" width="140">
@@ -117,7 +117,7 @@
       </el-table-column> -->
     </el-table>
 
-    <pagination v-show="total>0" :total="total" :page.sync="listQuery.pageNum" :limit.sync="listQuery.limit" @pagination="fetchData" />
+    <pagination v-show="total>0" :total="total" :page.sync="listQuery.pageNum" :limit.sync="listQuery.numPerPage" @pagination="fetchData" />
 
   </div>
 </template>
@@ -149,7 +149,7 @@ export default {
       listLoading: true,
       listQuery: {
         pageNum: 1,
-        limit: 20,
+        numPerPage: 20,
         importance: undefined,
         title: undefined,
         type: undefined,
