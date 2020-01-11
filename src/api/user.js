@@ -4,6 +4,10 @@ export function login(data) {
   return request({
     url: '/vuelogin/mylogin',
     method: 'post',
+    params: {
+      username: data.username,
+      password: data.password
+    },
     data
   })
 }
