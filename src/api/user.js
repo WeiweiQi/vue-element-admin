@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/vuelogin/mylogin',
+    url: '/vue/login/mylogin',
     method: 'post',
     params: {
       username: data.username,
@@ -14,7 +14,7 @@ export function login(data) {
 
 export function getInfo(token) {
   return request({
-    url: '/vuelogin/info',
+    url: '/vue/login/info',
     method: 'get',
     params: { token }
   })
@@ -22,7 +22,7 @@ export function getInfo(token) {
 
 export function logout() {
   return request({
-    url: '/vuelogin/logout',
+    url: '/vue/login/logout',
     method: 'post'
   })
 }

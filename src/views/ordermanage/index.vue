@@ -149,7 +149,7 @@
 </template>
 
 <script>
-import { getList } from '@/api/table'
+import { getList } from '@/api/ordermanage/ordermanage'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import Sticky from '@/components/Sticky'
 
