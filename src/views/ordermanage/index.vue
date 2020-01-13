@@ -154,6 +154,7 @@ import Pagination from '@/components/Pagination' // secondary package based on e
 import Sticky from '@/components/Sticky'
 
 export default {
+  name: 'Ordermanage',
   components: { Pagination, Sticky },
   filters: {
     statusFilter(status) {
