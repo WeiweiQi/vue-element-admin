@@ -1,5 +1,7 @@
 <template>
   <div class="app-container">
+    <!-- <p>testquery: {{ $route.query }}</p>
+    <p>testparams: {{ $route.params }}</p> -->
     <sticky :z-index="10" class-name="sub-navbar">
       <el-select v-model="listQuery.querydate" placeholder="时间范围" clearable style="width: 110px" class="filter-item" @change="handleFilter">
         <el-option v-for="item in querydates" :key="item.value" :label="item.label" :value="item.value" />
@@ -152,7 +154,6 @@ import Pagination from '@/components/Pagination' // secondary package based on e
 import Sticky from '@/components/Sticky'
 
 export default {
-  name: 'Ordermanage',
   components: { Pagination, Sticky },
   filters: {
     statusFilter(status) {
@@ -260,28 +261,24 @@ export default {
       list: null,
       listLoading: true,
       listQuery: {
-        pageNum: 1,
-        numPerPage: 20,
-        state: undefined,
-        dealtype: undefined,
-        querydate: undefined,
-        ordernum: undefined,
-        receiver: undefined,
-        username: undefined,
-        tel: undefined,
-        dateStart: undefined,
-        dateEnd: undefined,
-        apc: {
-          companyid: undefined,
-          companyname: undefined
-        },
-        welfare: {
-          welfarename: undefined,
-          welfareid: undefined
-        },
-        isself: undefined,
-        islike: undefined,
-        ismsgread: undefined
+        testquery: this.$route.query.testquery,
+        testparams: this.$route.params.testparams,
+        pageNum: this.$route.query.pageNum,
+        numPerPage: this.$route.query.numPerPage,
+        state: this.$route.query.state,
+        dealtype: this.$route.query.dealtype,
+        querydate: this.$route.query.querydate,
+        ordernum: this.$route.query.ordernum,
+        receiver: this.$route.query.receiver,
+        username: this.$route.query.username,
+        tel: this.$route.query.tel,
+        dateStart: this.$route.query.dateStart,
+        dateEnd: this.$route.query.dateEnd,
+        apc: this.$route.query.apc,
+        welfare: this.$route.query.welfare,
+        isself: this.$route.query.isself,
+        islike: this.$route.query.islike,
+        ismsgread: this.$route.query.ismsgread
       },
       total: 0
     }

@@ -7,34 +7,28 @@
         </div>
         <div style="margin-bottom:50px;">
           <el-col :span="4" class="text-center">
-            <router-link class="pan-btn blue-btn" to="/documentation/index">
-              Documentation
-            </router-link>
+            <router-link
+              class="pan-btn blue-btn"
+              :to="{name: 'Ordermanage', params: {'testparams' : 4, 'querydate': 4}, query: {'testquery': 3, 'querydate': 4}}"
+            >ordermanage</router-link>
+          </el-col>
+          <!-- <el-col :span="4" class="text-center">
+            <router-link class="pan-btn blue-btn" to="/documentation/index">Documentation</router-link>
+          </el-col> -->
+          <el-col :span="4" class="text-center">
+            <router-link class="pan-btn light-blue-btn" to="/icon/index">Icons</router-link>
           </el-col>
           <el-col :span="4" class="text-center">
-            <router-link class="pan-btn light-blue-btn" to="/icon/index">
-              Icons
-            </router-link>
+            <router-link class="pan-btn pink-btn" to="/excel/export-excel">Excel</router-link>
           </el-col>
           <el-col :span="4" class="text-center">
-            <router-link class="pan-btn pink-btn" to="/excel/export-excel">
-              Excel
-            </router-link>
+            <router-link class="pan-btn green-btn" to="/table/complex-table">Table</router-link>
           </el-col>
           <el-col :span="4" class="text-center">
-            <router-link class="pan-btn green-btn" to="/table/complex-table">
-              Table
-            </router-link>
+            <router-link class="pan-btn tiffany-btn" to="/example/create">Form</router-link>
           </el-col>
           <el-col :span="4" class="text-center">
-            <router-link class="pan-btn tiffany-btn" to="/example/create">
-              Form
-            </router-link>
-          </el-col>
-          <el-col :span="4" class="text-center">
-            <router-link class="pan-btn yellow-btn" to="/theme/index">
-              Theme
-            </router-link>
+            <router-link class="pan-btn yellow-btn" to="/theme/index">Theme</router-link>
           </el-col>
         </div>
       </el-card>
@@ -49,9 +43,12 @@
           <div style="height:100px;">
             <el-form :model="demo" :rules="demoRules">
               <el-form-item prop="title">
-                <md-input v-model="demo.title" icon="el-icon-search" name="title" placeholder="输入标题">
-                  标题
-                </md-input>
+                <md-input
+                  v-model="demo.title"
+                  icon="el-icon-search"
+                  name="title"
+                  placeholder="输入标题"
+                >标题</md-input>
               </el-form-item>
             </el-form>
           </div>
@@ -64,9 +61,11 @@
             <span>图片hover效果</span>
           </div>
           <div class="component-item">
-            <pan-thumb width="100px" height="100px" image="https://wpimg.wallstcn.com/577965b9-bb9e-4e02-9f0c-095b41417191">
-              vue-element-admin
-            </pan-thumb>
+            <pan-thumb
+              width="100px"
+              height="100px"
+              image="https://wpimg.wallstcn.com/577965b9-bb9e-4e02-9f0c-095b41417191"
+            >vue-element-admin</pan-thumb>
           </div>
         </el-card>
       </el-col>
@@ -77,9 +76,7 @@
             <span>水波纹 waves v-directive</span>
           </div>
           <div class="component-item">
-            <el-button v-waves type="primary">
-              水波纹效果
-            </el-button>
+            <el-button v-waves type="primary">水波纹效果</el-button>
           </div>
         </el-card>
       </el-col>
@@ -145,13 +142,46 @@ export default {
         title: [{ required: true, trigger: 'change', validator: validate }]
       },
       articleList: [
-        { title: '基础篇', href: 'https://juejin.im/post/59097cd7a22b9d0065fb61d2' },
-        { title: '登录权限篇', href: 'https://juejin.im/post/591aa14f570c35006961acac' },
-        { title: '实战篇', href: 'https://juejin.im/post/593121aa0ce4630057f70d35' },
-        { title: 'vue-admin-template 篇', href: 'https://juejin.im/post/595b4d776fb9a06bbe7dba56' },
-        { title: 'v4.0 篇', href: 'https://juejin.im/post/5c92ff94f265da6128275a85' },
-        { title: '优雅的使用 icon', href: 'https://juejin.im/post/59bb864b5188257e7a427c09' }
+        {
+          title: '基础篇',
+          href: 'https://juejin.im/post/59097cd7a22b9d0065fb61d2'
+        },
+        {
+          title: '登录权限篇',
+          href: 'https://juejin.im/post/591aa14f570c35006961acac'
+        },
+        {
+          title: '实战篇',
+          href: 'https://juejin.im/post/593121aa0ce4630057f70d35'
+        },
+        {
+          title: 'vue-admin-template 篇',
+          href: 'https://juejin.im/post/595b4d776fb9a06bbe7dba56'
+        },
+        {
+          title: 'v4.0 篇',
+          href: 'https://juejin.im/post/5c92ff94f265da6128275a85'
+        },
+        {
+          title: '优雅的使用 icon',
+          href: 'https://juejin.im/post/59bb864b5188257e7a427c09'
+        }
       ]
+    }
+  },
+  methods: {
+    ordermanageClick() {
+      this.$router.push({
+        name: 'Ordermanage',
+        params: {
+          querydate: 4,
+          numPerPage: 30
+        },
+        query: {
+          querydate: 3,
+          numPerPage: 40
+        }
+      })
     }
   }
 }
@@ -163,7 +193,7 @@ export default {
   padding: 30px;
   min-height: calc(100vh - 84px);
 }
-.component-item{
+.component-item {
   min-height: 100px;
 }
 </style>

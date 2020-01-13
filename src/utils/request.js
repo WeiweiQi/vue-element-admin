@@ -11,6 +11,8 @@ const service = axios.create({
   timeout: 500000, // request timeout
   transformRequest: [function(data) {
     // 对 data 进行任意转换处理
+    console.log('utils.request:data:')
+    console.log(data)
     return Qs.stringify(data)
   }]
 })
