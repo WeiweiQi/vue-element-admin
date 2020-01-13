@@ -1,5 +1,29 @@
 <template>
   <div class="app-container">
+    <sticky :z-index="10" class-name="sub-navbar">
+      <el-select v-model="listQuery.querydate" placeholder="时间范围" clearable style="width: 110px" class="filter-item" @change="handleFilter">
+        <el-option v-for="item in querydates" :key="item.value" :label="item.label" :value="item.value" />
+      </el-select>
+      <el-input v-model="listQuery.ordernum" placeholder="订单编号" style="width: 150px;" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-input v-model="listQuery.receiver" placeholder="收货人" style="width: 75px;" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-input v-model="listQuery.username" placeholder="用户名" style="width: 75px;" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-input v-model="listQuery.tel" placeholder="电话" style="width: 125px;" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-select v-model="listQuery.islike" placeholder="查询方式" clearable style="width: 110px" class="filter-item" @change="handleFilter">
+        <el-option v-for="item in islikes" :key="item.value" :label="item.label" :value="item.value" />
+      </el-select>
+      <el-select v-model="listQuery.state" placeholder="订单状态" clearable style="width: 110px" class="filter-item" @change="handleFilter">
+        <el-option v-for="item in orderstates" :key="item.value" :label="item.label" :value="item.value" />
+      </el-select>
+      <el-select v-model="listQuery.dealtype" placeholder="支付方式" clearable style="width: 110px" class="filter-item" @change="handleFilter">
+        <el-option v-for="item in dealtypes" :key="item.value" :label="item.label" :value="item.value" />
+      </el-select>
+      <el-select v-model="listQuery.isself" placeholder="发货方式" clearable style="width: 120px" class="filter-item" @change="handleFilter">
+        <el-option v-for="item in isselfs" :key="item.value" :label="item.label" :value="item.value" />
+      </el-select>
+    </sticky>
+    <sticky :z-index="10" class-name="sub-navbar">
+      <el-date-picker v-model="daterange" range-separator="至" start-placeholder="开始月份" end-placeholder="结束月份" type="datetimerange" format="yyyy-MM-dd HH:mm:ss" @change="handleFilter" />
+    </sticky>
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -125,10 +149,11 @@
 <script>
 import { getList } from '@/api/table'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
+import Sticky from '@/components/Sticky'
 
 export default {
   name: 'Ordermanage',
-  components: { Pagination },
+  components: { Pagination, Sticky },
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -145,15 +170,118 @@ export default {
   },
   data() {
     return {
+      daterange: ['', ''],
+      islikes: [
+        {
+          value: 0,
+          label: '精确查询'
+        },
+        {
+          value: 1,
+          label: '模糊查询'
+        }
+      ],
+      // 发货方式
+      isselfs: [
+        {
+          value: 0,
+          label: '配送：全部'
+        },
+        {
+          value: 1,
+          label: '只是西区发货'
+        }
+      ],
+      // 查询日期范围
+      querydates: [
+        {
+          value: 0,
+          label: '自定义'
+        },
+        {
+          value: 1,
+          label: '今天'
+        },
+        {
+          value: 2,
+          label: '昨天'
+        },
+        {
+          value: 3,
+          label: '最近7天'
+        },
+        {
+          value: 4,
+          label: '全部'
+        }
+      ],
+      // 订单状态
+      orderstates: [
+        { value: '0', label: '待付款' },
+        { value: '1', label: '待发货' },
+        { value: '2', label: '待收货' },
+        { value: '3', label: '已完成' },
+        { value: '5', label: '已退款' },
+        { value: '7', label: '已关闭' },
+        { value: '-2', label: '已删除' },
+        { value: '-1', label: '已取消' }
+      ],
+      // 支付方式
+      dealtypes: [
+        {
+          label: '支付宝',
+          value: 1
+        },
+        {
+          label: '微信',
+          value: 2
+        },
+        {
+          label: '货到付款',
+          value: 0
+        },
+        {
+          label: '已确认收款',
+          value: 4
+        },
+        {
+          label: '全额餐卡',
+          value: 5
+        },
+        {
+          label: '福利',
+          value: 6
+        },
+        {
+          label: '银联支付',
+          value: 3
+        }
+      ],
       list: null,
       listLoading: true,
       listQuery: {
         pageNum: 1,
         numPerPage: 20,
-        importance: undefined,
-        title: undefined,
-        type: undefined,
-        sort: '+id'
+        state: undefined,
+        dealtype: undefined,
+        querydate: undefined,
+        ordernum: undefined,
+        receiver: undefined,
+        username: undefined,
+        tel: undefined,
+        dateStart: undefined,
+        dateEnd: undefined,
+        apc: {
+          companyid: undefined,
+          companyname: undefined
+        },
+        welfare: {
+          welfarename: undefined,
+          welfareid: undefined
+        },
+        isself: undefined,
+        islike: undefined,
+        ismsgread: undefined
       },
       total: 0
     }
@@ -164,11 +292,23 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
+      this.listQuery.dateStart = this.daterange[0]
+      this.listQuery.dateEnd = this.daterange[1]
       getList(this.listQuery).then(response => {
         this.list = response.data.items
         this.listLoading = false
         this.total = response.data.total
+        this.listQuery.querydate = response.data.querydate
+        this.listQuery.isself = response.data.isself
+        this.listQuery.islike = response.data.islike
+        this.listQuery.dateStart = response.data.dateStart
+        this.listQuery.dateEnd = response.data.dateEnd
+        this.daterange = [response.data.dateStart, response.data.dateEnd]
       })
+    },
+    handleFilter() {
+      this.listQuery.pageNum = 1
+      this.fetchData()
     }
   }
 }
