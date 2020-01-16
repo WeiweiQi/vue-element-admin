@@ -81,7 +81,7 @@
       </el-table-column>
       <el-table-column label="物流运单号" align="center">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="handleClick(scope.row)">添加单号</el-button>
+          <el-button type="text" size="small" @click="getOrderMailNo(scope.row.ordernumber)">添加运单号</el-button>
         </template>
       </el-table-column>
       <el-table-column label="支付方式" align="center">
@@ -145,6 +145,13 @@
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.pageNum" :limit.sync="listQuery.numPerPage" @pagination="fetchData" />
 
+    <div>
+      <el-dialog v-if="dialogVisible==true" :visible.sync="dialogVisible" title="添加运单号" :destroy-on-close="true">
+        <div>
+          <order-logistics-dialog :ordernumber="logisticsOrdernum" />
+        </div>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -152,10 +159,11 @@
 import { getList } from '@/api/ordermanage/ordermanage'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import Sticky from '@/components/Sticky'
+import OrderLogisticsDialog from './logistics'
 
 export default {
   name: 'Ordermanage',
-  components: { Pagination, Sticky },
+  components: { Pagination, Sticky, OrderLogisticsDialog },
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -172,6 +180,8 @@ export default {
   },
   data() {
     return {
+      dialogVisible: false,
+      logisticsOrdernum: null,
       daterange: ['', ''],
       islikes: [
         {
@@ -307,6 +317,11 @@ export default {
     handleFilter() {
       this.listQuery.pageNum = 1
       this.fetchData()
+    },
+    getOrderMailNo(ordernum) {
+      console.log('ordermailno:ordernum=' + ordernum)
+      this.logisticsOrdernum = ordernum
+      this.dialogVisible = true
     }
   }
 }

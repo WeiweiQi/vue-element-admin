@@ -7,3 +7,11 @@ export function getList(data) {
     data
   })
 }
+
+export function getOrderMailNo(data) {
+  return request({
+    url: '/vue/ordermanage/getOrderMailNo',
+    method: 'post',
+    data
+  })
+}
