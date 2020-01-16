@@ -188,7 +188,23 @@ const data = {
 
 export default [
     {
-        url: '/vuelogin/list',
+        url: '/vue/ordermanage/list',
+        type: 'post',
+        response: config => {
+            const items = data.items
+            console.log('mock.ordermanage.response')
+            return {
+                code: 20000,
+                data: {
+                    total: items.length,
+                    items: items
+                }
+            }
+        }
+    },
+
+    {
+        url: '/vue/ordermanage/getOrderMailNo',
         type: 'post',
         response: config => {
             const items = data.items
