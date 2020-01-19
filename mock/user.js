@@ -26,7 +26,7 @@ const users = {
 export default [
   // user login
   {
-    url: '/user/mylogin',
+    url: '/vue/login/mylogin',
     type: 'post',
     response: config => {
       const { username } = config.body
@@ -49,12 +49,11 @@ export default [
 
   // get user info
   {
-    url: '/vue-element-admin/user/info\.*',
+    url: '/vue/login/info\.*',
     type: 'get',
     response: config => {
       const { token } = config.query
       const info = users[token]
-      console.log('mock.user')
       // mock error
       if (!info) {
         return {
@@ -72,7 +71,7 @@ export default [
 
   // user logout
   {
-    url: '/vue-element-admin/user/logout',
+    url: '/vue/login/logout',
     type: 'post',
     response: _ => {
       return {

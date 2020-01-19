@@ -22,6 +22,22 @@
       <el-select v-model="listQuery.isself" placeholder="发货方式" clearable style="width: 120px" class="filter-item" @change="handleFilter">
         <el-option v-for="item in isselfs" :key="item.value" :label="item.label" :value="item.value" />
       </el-select>
+      <el-select
+        v-model="listQuery.apc"
+        filterable
+        remote
+        reserve-keyword
+        placeholder="请输入店铺名称"
+        :remote-method="remoteSearchCompanyMethod"
+        :loading="companysLoading"
+      >
+        <el-option
+          v-for="item in companysOptions"
+          :key="item.companyid"
+          :label="item.companyname"
+          :value="item.companyid"
+        />
+      </el-select>
     </sticky>
     <sticky :z-index="10" class-name="sub-navbar">
       <el-date-picker v-model="daterange" range-separator="至" start-placeholder="开始月份" end-placeholder="结束月份" type="datetimerange" format="yyyy-MM-dd HH:mm:ss" @change="handleFilter" />
@@ -156,7 +172,7 @@
 </template>
 
 <script>
-import { getList } from '@/api/ordermanage/ordermanage'
+import { getList, getCompany } from '@/api/ordermanage/ordermanage'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import Sticky from '@/components/Sticky'
 import OrderLogisticsDialog from './logistics'
@@ -180,6 +196,8 @@ export default {
   },
   data() {
     return {
+      companysLoading: true,
+      companysOptions: [],
       dialogVisible: false,
       logisticsOrdernum: null,
       daterange: ['', ''],
@@ -322,6 +340,22 @@ export default {
       console.log('ordermailno:ordernum=' + ordernum)
       this.logisticsOrdernum = ordernum
       this.dialogVisible = true
+    },
+    remoteSearchCompanyMethod(query) {
+      if (query !== '') {
+        this.companysLoading = true
+        const data = {
+          keywords: query
+        }
+        getCompany(data).then(response => {
+          console.log('views.ordermange.index.remoteSearchCompanyMethod.response:')
+          console.log(response.data.items)
+          this.companysLoading = false
+          this.companysOptions = response.data.items
+        })
+      } else {
+        this.companysOptions = []
+      }
     }
   }
 }

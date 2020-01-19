@@ -15,3 +15,11 @@ export function getOrderMailNo(data) {
     data
   })
 }
+
+export function getCompany(data) {
+  return request({
+    url: '/vue/ordermanage/getCompany',
+    method: 'post',
+    data
+  })
+}
