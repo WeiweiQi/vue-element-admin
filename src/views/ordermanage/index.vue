@@ -23,7 +23,7 @@
         <el-option v-for="item in isselfs" :key="item.value" :label="item.label" :value="item.value" />
       </el-select>
       <el-select
-        v-model="listQuery.apc"
+        v-model="listQuery.apc.companyid"
         filterable
         remote
         reserve-keyword
@@ -303,7 +303,10 @@ export default {
         tel: this.$route.query.tel,
         dateStart: this.$route.query.dateStart,
         dateEnd: this.$route.query.dateEnd,
-        apc: this.$route.query.apc,
+        apc: {
+          companyid: '',
+          companyname: ''
+        },
         welfare: this.$route.query.welfare,
         isself: this.$route.query.isself,
         islike: this.$route.query.islike,
